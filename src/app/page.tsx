@@ -21,9 +21,9 @@ export default function Home() {
   };
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-12">
-      <div className="w-full">
-        <div className="flex lg:static lg:h-auto lg:w-auto">
+    <main className="flex min-h-screen flex-col items-center justify-between p-8 md:p-12">
+      <div className="md:w-full">
+        <div className="flex lg:h-auto lg:w-auto">
           <Image
             src="/money.png"
             alt="money Logo"
@@ -40,8 +40,8 @@ export default function Home() {
             Bank - ${totalAmount}
           </h2>
         </div>
-        <div className="p-4 relative">
-          <div className="absolute inset-y-0 left-0 w-px bg-white hidden sm:block" />
+        <div className="md:pl-8 md:pt-4 md:pb-4 relative">
+          <div className="absolute inset-y-0 left-0 w-0.5 bg-white hidden sm:block" />
           <SpendList updateAmount={updateAmount} />
         </div>
       </div>

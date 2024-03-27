@@ -49,14 +49,14 @@ const SpendList: React.FC<ChildComponentProps> = ({ updateAmount }) => {
           value={name}
           onChange={handleNameChange}
           className="w-full p-2 border border-gray-400 rounded bg-gray-900"
-          placeholder="Spend"
+          placeholder="Spent on?"
         />
         <input
           type="number"
           value={value}
           onChange={handleAgeChange}
           className="w-full p-2 border border-gray-400 rounded bg-gray-900"
-          placeholder="Amount"
+          placeholder="How much?"
         />
         <button
           type="submit"
