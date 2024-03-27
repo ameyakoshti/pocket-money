@@ -41,7 +41,7 @@ export default function Home() {
           </h2>
         </div>
         <div className="md:pl-8 md:pt-4 md:pb-4 relative">
-          <div className="absolute inset-y-0 left-0 w-0.5 bg-white hidden sm:block" />
+          <div className="absolute inset-y-0 left-0 w-px bg-white hidden sm:block" />
           <SpendList updateAmount={updateAmount} />
         </div>
       </div>
