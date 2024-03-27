@@ -46,7 +46,7 @@ export const removeSpend = (keyToRemove: string): void => {
       delete spendObject[keyToRemove];
       localStorage.setItem("Spend", JSON.stringify(spendObject));
     } else {
-      console.log(`Key '${keyToRemove}' does not exist.`);
+      console.log(`'${keyToRemove}' does not exist.`);
     }
   }
 };
