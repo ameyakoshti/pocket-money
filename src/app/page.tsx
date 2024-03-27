@@ -34,14 +34,14 @@ export default function Home() {
           <h1 className="ml-3 text-3xl">Pocket Money</h1>
         </div>
       </div>
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="p-4 flex items-center justify-center">
           <h2 className="mb-3 text-2xl font-semibold text-center">
             Bank - ${totalAmount}
           </h2>
         </div>
         <div className="p-4 relative">
-          <div className="absolute inset-y-0 left-0 w-px bg-white"></div>
+          <div className="absolute inset-y-0 left-0 w-px bg-white hidden sm:block" />
           <SpendList updateAmount={updateAmount} />
         </div>
       </div>
