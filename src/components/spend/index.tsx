@@ -60,7 +60,7 @@ const SpendList: React.FC<ChildComponentProps> = ({ updateAmount }) => {
         />
         <button
           type="submit"
-          className={`bg-blue-500 text-white px-4 py-2 rounded ${
+          className={`bg-blue-500 text-white px-4 rounded ${
             !(name && value) && "opacity-50 cursor-not-allowed"
           }`}
           disabled={!name || !value}
@@ -72,13 +72,31 @@ const SpendList: React.FC<ChildComponentProps> = ({ updateAmount }) => {
         {Object.keys(savedData).length !== 0 &&
           Object.entries(savedData).map((item, index) => (
             <li key={index} className="w-full pt-2 pb-2 pl-2">
-              {item[0]} - ${item[1]}
-              <button
-                onClick={() => handleRemoveItem(item[0])}
-                className="ml-2 bg-red-500 text-white px-2 py-1 rounded float-right"
-              >
-                Remove
-              </button>
+              <div className="grid grid-cols-2">
+                <div>{item[0]}</div>
+                <div className="flex justify-between">
+                  <div>${item[1]}</div>
+                  <button
+                    onClick={() => handleRemoveItem(item[0])}
+                    className="ml-2 bg-red-500 text-white px-2 py-1 rounded h-8"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-5 w-5 text-white"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                      />
+                    </svg>
+                  </button>
+                </div>
+              </div>
             </li>
           ))}
       </ul>

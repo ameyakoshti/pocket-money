@@ -35,10 +35,11 @@ export default function Home() {
         </div>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div className="p-4 flex items-center justify-center">
-          <h2 className="mb-3 text-2xl font-semibold text-center">
-            Bank - ${totalAmount}
+        <div className="p-4 flex flex-col items-center justify-center">
+          <h2 className="mb-3 text-6xl font-semibold text-center">
+            ${totalAmount}
           </h2>
+          <p className="mt-2 text-xs">Total in bank</p>
         </div>
         <div className="md:pl-8 md:pt-4 md:pb-4 relative">
           <div className="absolute inset-y-0 left-0 w-px bg-white hidden sm:block" />
