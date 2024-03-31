@@ -2,44 +2,80 @@
 
 import { useState, useEffect } from "react";
 import { getSpend } from "../utils/spend";
-import { calculateTotalAmount } from "../utils/amount";
+import { getFinancialData } from "../utils/amount";
 import SpendList from "../components/spend";
+import Settings from "../components/settings";
 import Image from "next/image";
 
 export default function Home() {
   const [totalAmount, setTotalAmount] = useState(0);
+  const [financialBreakdown, setfinancialBreakdown] = useState({
+    totalChecking: 0,
+    totalSaving: 0,
+    totalDonation: 0,
+  });
 
   useEffect(() => {
     updateAmount();
   }, []);
 
   const updateAmount = () => {
-    const amount = calculateTotalAmount();
+    const financeData = getFinancialData();
     const spend = getSpend();
-    const balance = amount - spend.totalSum;
+    const balance = financeData.totalAmount - spend.totalSum;
     setTotalAmount(balance);
+    setfinancialBreakdown({
+      totalChecking: financeData.totalChecking,
+      totalSaving: financeData.totalSaving,
+      totalDonation: financeData.totalDonation,
+    });
   };
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-8 md:p-12">
-      <div className="md:w-full">
-        <div className="flex lg:h-auto lg:w-auto">
-          <Image
-            src="/money.png"
-            alt="money Logo"
-            width={35}
-            height={35}
-            priority
-          />
-          <h1 className="ml-3 text-3xl">Pocket Money</h1>
+      <div className="w-full">
+        <div className="flex h-auto w-auto items-center justify-between">
+          <div className="flex items-center">
+            <Image
+              src="/money.png"
+              alt="money Logo"
+              width={35}
+              height={35}
+              priority
+            />
+            <h1 className="ml-3 text-3xl">Pocket Money</h1>
+          </div>
+          <Settings updateAmount={updateAmount} />
         </div>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div className="p-4 flex flex-col items-center justify-center">
+        <div className="p-4 flex flex-col items-center">
           <h2 className="mb-3 text-6xl font-semibold text-center">
             ${totalAmount}
           </h2>
-          <p className="mt-2 text-xs">Total in bank</p>
+          <p className="mt-2 text-xs">Total</p>
+        </div>
+        <div className="grid grid-cols-3 justify-center">
+          <div className="p-4 flex flex-col items-center">
+            <h2 className="mb-3 text-3xl font-semibold text-center">
+              ${financialBreakdown.totalChecking}
+            </h2>
+            <p className="mt-2 text-xs">Checking</p>
+          </div>
+
+          <div className="p-4 flex flex-col items-center">
+            <h2 className="mb-3 text-3xl font-semibold text-center">
+              ${financialBreakdown.totalSaving}
+            </h2>
+            <p className="mt-2 text-xs">Saving</p>
+          </div>
+
+          <div className="p-4 flex flex-col items-center">
+            <h2 className="mb-3 text-3xl font-semibold text-center">
+              ${financialBreakdown.totalDonation}
+            </h2>
+            <p className="mt-2 text-xs">Donation</p>
+          </div>
         </div>
         <div className="md:pl-8 md:pt-4 md:pb-4 relative">
           <div className="absolute inset-y-0 left-0 w-px bg-white hidden sm:block" />

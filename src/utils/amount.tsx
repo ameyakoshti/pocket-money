@@ -1,4 +1,15 @@
-export const calculateTotalAmount = (): number => {
+interface FinancialData {
+  totalAmount: number;
+  totalChecking: number;
+  totalSaving: number;
+  totalDonation: number;
+}
+
+export const getFinancialData = (): FinancialData => {
+  const checking = parseInt(localStorage.getItem("Checking") || "3");
+  const saving = parseInt(localStorage.getItem("Saving") || "1");
+  const donation = parseInt(localStorage.getItem("Donation") || "1");
+
   const startDate: Date = new Date("2024-01-01");
   const today: Date = new Date();
   // Calculate the day of the week for the start date
@@ -18,14 +29,22 @@ export const calculateTotalAmount = (): number => {
 
   // Guard against negative difference if today is before the first Friday
   if (differenceInTime < 0) {
-    return 0;
+    return {
+      totalAmount: 0,
+      totalChecking: 0,
+      totalSaving: 0,
+      totalDonation: 0,
+    };
   }
 
   const differenceInDays: number = differenceInTime / (1000 * 60 * 60 * 24);
   const totalFridays: number = Math.floor(differenceInDays / 7) + 1; // +1 to include the first Friday
 
-  // Each Friday contributes $5 to the total amount
-  const totalAmount: number = totalFridays * 5;
+  // Each Friday contributes Saving + Checking + Donations to the total amount
+  const totalAmount: number = totalFridays * (checking + saving + donation);
+  const totalChecking: number = totalFridays * checking;
+  const totalSaving: number = totalFridays * saving;
+  const totalDonation: number = totalFridays * donation;
 
-  return totalAmount;
+  return { totalAmount, totalChecking, totalSaving, totalDonation };
 };
