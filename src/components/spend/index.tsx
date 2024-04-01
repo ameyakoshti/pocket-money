@@ -68,9 +68,9 @@ const SpendList: React.FC<ChildComponentProps> = ({ updateAmount }) => {
           onChange={handleAccountChange}
           className="w-full p-2 border border-gray-400 rounded bg-gray-900 text-xs"
         >
-          <option value="Checkings">Checking</option>
-          <option value="Savings">Saving</option>
-          <option value="Donations">Donation</option>
+          <option value="Checking">Checking</option>
+          <option value="Saving">Saving</option>
+          <option value="Donation">Donation</option>
         </select>
         <button
           type="submit"
