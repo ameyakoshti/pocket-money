@@ -1,8 +1,8 @@
 export interface Spend {
-  [key: string]: string;
+  [key: string]: { value: string; account: string };
 }
 
-export const addSpend = (key: string, value: string): void => {
+export const addSpend = (key: string, value: string, account: string): void => {
   const currentSpendJSON: string | null = localStorage.getItem("Spend");
   let currentSpend: Spend = {};
 
@@ -10,13 +10,23 @@ export const addSpend = (key: string, value: string): void => {
     currentSpend = JSON.parse(currentSpendJSON);
   }
 
-  currentSpend[key] = value;
+  // currentSpend[key] = value;
+  currentSpend[key] = { value, account };
 
   localStorage.setItem("Spend", JSON.stringify(currentSpend));
 };
 
-export const getSpend = (): { spendObject: Spend; totalSum: number } => {
+export const getSpend = (): {
+  spendObject: Spend;
+  totalSum: number;
+  totalChecking: number;
+  totalSaving: number;
+  totalDonation: number;
+} => {
   let totalSum: number = 0;
+  let totalChecking: number = 0;
+  let totalSaving: number = 0;
+  let totalDonation: number = 0;
 
   const spendJSON: string | null = localStorage.getItem("Spend");
   let spendObject: Spend = {};
@@ -26,15 +36,23 @@ export const getSpend = (): { spendObject: Spend; totalSum: number } => {
 
     for (const key in spendObject) {
       if (Object.prototype.hasOwnProperty.call(spendObject, key)) {
-        const value: number = parseFloat(spendObject[key]);
-        if (!isNaN(value)) {
+        const amount: string = spendObject[key].account;
+        if (amount) {
+          const value: number = parseFloat(spendObject[key].value);
           totalSum += value;
+          if (amount === "Checking") {
+            totalChecking += value;
+          } else if (amount === "Saving") {
+            totalSaving += value;
+          } else if (amount === "Donation") {
+            totalDonation += value;
+          }
         }
       }
     }
   }
 
-  return { spendObject, totalSum };
+  return { spendObject, totalSum, totalChecking, totalSaving, totalDonation };
 };
 
 export const removeSpend = (keyToRemove: string): void => {

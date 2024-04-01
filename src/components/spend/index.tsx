@@ -8,6 +8,7 @@ interface ChildComponentProps {
 const SpendList: React.FC<ChildComponentProps> = ({ updateAmount }) => {
   const [name, setName] = useState<string>("");
   const [value, setValue] = useState<string>("");
+  const [account, setAccount] = useState<string>("Checking");
   const [savedData, setSavedData] = useState<Spend>({});
 
   useEffect(() => {
@@ -18,14 +19,18 @@ const SpendList: React.FC<ChildComponentProps> = ({ updateAmount }) => {
     setName(event.target.value);
   };
 
-  const handleAgeChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleValueChange = (event: ChangeEvent<HTMLInputElement>) => {
     setValue(event.target.value);
+  };
+
+  const handleAccountChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    setAccount(event.target.value);
   };
 
   const handleFormSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (name && value) {
-      addSpend(name, value);
+      addSpend(name, value, account);
       setName("");
       setValue("");
       setSavedData(getSpend().spendObject);
@@ -48,16 +53,25 @@ const SpendList: React.FC<ChildComponentProps> = ({ updateAmount }) => {
           type="text"
           value={name}
           onChange={handleNameChange}
-          className="w-full p-2 border border-gray-400 rounded bg-gray-900"
+          className="w-full p-2 border border-gray-400 rounded bg-gray-900 text-xs"
           placeholder="Spent on?"
         />
         <input
           type="number"
           value={value}
-          onChange={handleAgeChange}
-          className="w-full p-2 border border-gray-400 rounded bg-gray-900"
+          onChange={handleValueChange}
+          className="w-full p-2 border border-gray-400 rounded bg-gray-900 text-xs"
           placeholder="How much?"
         />
+        <select
+          value={account}
+          onChange={handleAccountChange}
+          className="w-full p-2 border border-gray-400 rounded bg-gray-900 text-xs"
+        >
+          <option value="Checkings">Checking</option>
+          <option value="Savings">Saving</option>
+          <option value="Donations">Donation</option>
+        </select>
         <button
           type="submit"
           className={`bg-blue-500 text-white px-4 rounded ${
@@ -75,7 +89,8 @@ const SpendList: React.FC<ChildComponentProps> = ({ updateAmount }) => {
               <div className="grid grid-cols-2">
                 <div>{item[0]}</div>
                 <div className="flex justify-between">
-                  <div>${item[1]}</div>
+                  <div>${item[1].value}</div>
+                  <div>{item[1].account}</div>
                   <button
                     onClick={() => handleRemoveItem(item[0])}
                     className="ml-2 bg-red-500 text-white px-2 py-1 rounded h-8"
