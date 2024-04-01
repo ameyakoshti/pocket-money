@@ -51,7 +51,7 @@ const Settings: React.FC<ChildComponentProps> = ({ updateAmount }) => {
       </button>
       {showModal && (
         <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50">
-          <div className="bg-white p-8 rounded-lg">
+          <div className="w-full bg-white p-8 m-8 rounded-lg">
             <h2 className="text-lg font-semibold mb-4 text-black">
               Set category contributions
             </h2>
@@ -91,16 +91,16 @@ const Settings: React.FC<ChildComponentProps> = ({ updateAmount }) => {
                 />
               </div>
             </div>
-            <div className="mt-5 flex justify-end">
+            <div className="mt-8 flex justify-end">
               <button
                 onClick={handleSave}
-                className="bg-blue-500 text-white px-4 py-2 mr-2 rounded hover:bg-blue-600"
+                className="bg-blue-500 text-white px-4 py-1.5 mr-2 rounded hover:bg-blue-600"
               >
                 Save
               </button>
               <button
                 onClick={handleCancel}
-                className="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400"
+                className="bg-gray-300 text-gray-800 px-4 py-1.5 rounded hover:bg-gray-400"
               >
                 Cancel
               </button>

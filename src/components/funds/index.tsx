@@ -65,7 +65,7 @@ const Funds: React.FC<ChildComponentProps> = ({ updateAmount, account }) => {
           <div className="bg-white p-8 m-8 rounded-lg">
             <div className="flex items-center justify-between">
               <h2 className="text-lg font-semibold mb-4 text-black">
-                {account} account
+                Add funds to {account} account
               </h2>
               <div className="mr-[-20px] mt-[-50px]">
                 <button onClick={handleDone}>
@@ -79,8 +79,8 @@ const Funds: React.FC<ChildComponentProps> = ({ updateAmount, account }) => {
                     <path
                       d="M20 20L4 4.00003M20 4L4.00002 20"
                       stroke="#000000"
-                      stroke-width="2"
-                      stroke-linecap="round"
+                      strokeWidth="2"
+                      strokeLinecap="round"
                     />
                   </svg>
                 </button>
