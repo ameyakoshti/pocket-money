@@ -62,7 +62,7 @@ const Funds: React.FC<ChildComponentProps> = ({ updateAmount, account }) => {
       </button>
       {showModal && (
         <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50">
-          <div className="bg-white p-8 rounded-lg">
+          <div className="bg-white p-8 m-8 rounded-lg">
             <h2 className="text-lg font-semibold mb-4 text-black">
               {account} account
             </h2>
