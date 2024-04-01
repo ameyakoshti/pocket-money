@@ -1,3 +1,5 @@
+import { getAccountSetting } from "./spend";
+
 interface FinancialData {
   totalAmount: number;
   totalChecking: number;
@@ -6,9 +8,9 @@ interface FinancialData {
 }
 
 export const getFinancialData = (): FinancialData => {
-  const checking = parseInt(localStorage.getItem("Checking") || "3");
-  const saving = parseInt(localStorage.getItem("Saving") || "1");
-  const donation = parseInt(localStorage.getItem("Donation") || "1");
+  const checking = parseInt(getAccountSetting("Checking") || "3");
+  const saving = parseInt(getAccountSetting("Saving") || "1");
+  const donation = parseInt(getAccountSetting("Donation") || "1");
 
   const startDate: Date = new Date("2024-01-01");
   const today: Date = new Date();

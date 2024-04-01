@@ -1,6 +1,5 @@
-"use client";
-
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import { addAccountSetting, getAccountSetting } from "../../utils/spend";
 
 interface ChildComponentProps {
   updateAmount: () => void;
@@ -15,9 +14,9 @@ interface InputValues {
 const Settings: React.FC<ChildComponentProps> = ({ updateAmount }) => {
   const [showModal, setShowModal] = useState(false);
   const [inputValues, setInputValues] = useState<InputValues>({
-    checking: localStorage.getItem("Checking") || "3",
-    saving: localStorage.getItem("Saving") || "1",
-    donation: localStorage.getItem("Donation") || "1",
+    checking: getAccountSetting("Checking") || "3",
+    saving: getAccountSetting("Saving") || "1",
+    donation: getAccountSetting("Donation") || "1",
   });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -26,9 +25,9 @@ const Settings: React.FC<ChildComponentProps> = ({ updateAmount }) => {
   };
 
   const handleSave = (): void => {
-    localStorage.setItem("Checking", inputValues.checking);
-    localStorage.setItem("Saving", inputValues.saving);
-    localStorage.setItem("Donation", inputValues.donation);
+    addAccountSetting("Checking", inputValues.checking);
+    addAccountSetting("Saving", inputValues.saving);
+    addAccountSetting("Donation", inputValues.donation);
     updateAmount();
     setShowModal(false);
   };

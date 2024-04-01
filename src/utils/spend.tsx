@@ -16,6 +16,17 @@ export const addSpend = (key: string, value: string, account: string): void => {
   localStorage.setItem("Spend", JSON.stringify(currentSpend));
 };
 
+export const addAccountSetting = (key: string, value: string): void => {
+  localStorage.setItem(key, value);
+};
+
+export const getAccountSetting = (key: string): string => {
+  if (typeof window !== "undefined") {
+    return localStorage.getItem(key) || "0";
+  }
+  return "0";
+};
+
 export const getSpend = (): {
   spendObject: Spend;
   totalSum: number;
