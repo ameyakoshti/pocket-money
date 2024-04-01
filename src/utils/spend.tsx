@@ -20,9 +20,9 @@ export const addAccountSetting = (key: string, value: string): void => {
   localStorage.setItem(key, value);
 };
 
-export const getAccountSetting = (key: string): string => {
+export const getAccountSetting = (key: string): string | null => {
   if (typeof window !== "undefined") {
-    return localStorage.getItem(key) || "0";
+    return localStorage.getItem(key);
   }
   return "0";
 };
