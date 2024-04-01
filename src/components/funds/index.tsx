@@ -63,10 +63,31 @@ const Funds: React.FC<ChildComponentProps> = ({ updateAmount, account }) => {
       {showModal && (
         <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50">
           <div className="bg-white p-8 m-8 rounded-lg">
-            <h2 className="text-lg font-semibold mb-4 text-black">
-              {account} account
-            </h2>
-            <div>
+            <div className="flex items-center justify-between">
+              <h2 className="text-lg font-semibold mb-4 text-black">
+                {account} account
+              </h2>
+              <div className="mr-[-20px] mt-[-50px]">
+                <button onClick={handleDone}>
+                  <svg
+                    width="24px"
+                    height="24px"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M20 20L4 4.00003M20 4L4.00002 20"
+                      stroke="#000000"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <div className="mb-5">
               <form onSubmit={handleFormSubmit} className="flex space-x-4 mb-4">
                 <input
                   type="text"
@@ -124,14 +145,6 @@ const Funds: React.FC<ChildComponentProps> = ({ updateAmount, account }) => {
                     </li>
                   ))}
               </ul>
-            </div>
-            <div className="mt-5 flex justify-center">
-              <button
-                onClick={handleDone}
-                className="bg-blue-500 text-white px-4 py-1 mt-8 rounded"
-              >
-                Done
-              </button>
             </div>
           </div>
         </div>
