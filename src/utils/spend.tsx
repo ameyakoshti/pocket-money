@@ -1,6 +1,59 @@
-export interface Spend {
-  [key: string]: { value: string; account: string };
-}
+export const addAccountSettings = (value: Settings): void => {
+  localStorage.setItem("Settings", JSON.stringify(value));
+};
+
+export const getAccountSettings = (): Settings => {
+  const defaultSettings: Settings = {
+    checking: "3",
+    saving: "1",
+    donation: "1",
+  };
+
+  if (typeof window !== "undefined") {
+    const settingString: string | null = localStorage.getItem("Settings");
+    const settingObject =
+      settingString !== null ? JSON.parse(settingString) : defaultSettings;
+    return settingObject;
+  }
+  return defaultSettings;
+};
+
+export const addFunds = (key: string, value: string, account: string): void => {
+  const fundName = `${account}Funds`;
+  const currentFundJSON: string | null = localStorage.getItem(fundName);
+  let currentFund: Fund = {};
+
+  if (currentFundJSON !== null) {
+    currentFund = JSON.parse(currentFundJSON);
+  }
+  currentFund[key] = value;
+
+  localStorage.setItem(fundName, JSON.stringify(currentFund));
+};
+
+export const getFunds = (account: string): Fund => {
+  const fundName = `${account}Funds`;
+  const fundJSON: string | null = localStorage.getItem(fundName);
+  const fundObject = fundJSON !== null ? JSON.parse(fundJSON) : {};
+
+  return fundObject;
+};
+
+export const removeFunds = (key: string, account: string): void => {
+  const fundName = `${account}Funds`;
+  const fundJSON: string | null = localStorage.getItem(fundName);
+
+  if (fundJSON !== null) {
+    let fundObject: Spend = JSON.parse(fundJSON);
+
+    if (fundObject.hasOwnProperty(key)) {
+      delete fundObject[key];
+      localStorage.setItem(fundName, JSON.stringify(fundObject));
+    } else {
+      console.log(`'${account}' does not exist.`);
+    }
+  }
+};
 
 export const addSpend = (key: string, value: string, account: string): void => {
   const currentSpendJSON: string | null = localStorage.getItem("Spend");
@@ -9,30 +62,14 @@ export const addSpend = (key: string, value: string, account: string): void => {
   if (currentSpendJSON !== null) {
     currentSpend = JSON.parse(currentSpendJSON);
   }
-
-  // currentSpend[key] = value;
   currentSpend[key] = { value, account };
 
   localStorage.setItem("Spend", JSON.stringify(currentSpend));
 };
 
-export const addAccountSetting = (key: string, value: string): void => {
-  localStorage.setItem(key, value);
-};
-
-export const getAccountSetting = (key: string): string | null => {
-  if (typeof window !== "undefined") {
-    return localStorage.getItem(key);
-  }
-  return "0";
-};
-
 export const getSpend = (): {
   spendObject: Spend;
-  totalSum: number;
-  totalChecking: number;
-  totalSaving: number;
-  totalDonation: number;
+  totalObject: Totals;
 } => {
   let totalSum: number = 0;
   let totalChecking: number = 0;
@@ -63,19 +100,47 @@ export const getSpend = (): {
     }
   }
 
-  return { spendObject, totalSum, totalChecking, totalSaving, totalDonation };
+  const totalObject: Totals = {
+    totalSum,
+    totalChecking,
+    totalSaving,
+    totalDonation,
+  };
+
+  return { spendObject, totalObject };
 };
 
-export const removeSpend = (keyToRemove: string): void => {
+export const removeSpend = (key: string): void => {
   const spendJSON: string | null = localStorage.getItem("Spend");
   if (spendJSON !== null) {
     let spendObject: Spend = JSON.parse(spendJSON);
 
-    if (spendObject.hasOwnProperty(keyToRemove)) {
-      delete spendObject[keyToRemove];
+    if (spendObject.hasOwnProperty(key)) {
+      delete spendObject[key];
       localStorage.setItem("Spend", JSON.stringify(spendObject));
     } else {
-      console.log(`'${keyToRemove}' does not exist.`);
+      console.log(`'${key}' does not exist.`);
     }
   }
 };
+
+export interface Spend {
+  [key: string]: { value: string; account: string };
+}
+
+export interface Fund {
+  [key: string]: string;
+}
+
+export interface Totals {
+  totalSum: number;
+  totalChecking: number;
+  totalSaving: number;
+  totalDonation: number;
+}
+
+interface Settings {
+  checking: string;
+  saving: string;
+  donation: string;
+}

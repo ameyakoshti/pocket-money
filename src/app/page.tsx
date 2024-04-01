@@ -5,6 +5,7 @@ import { getSpend } from "../utils/spend";
 import { getFinancialData } from "../utils/amount";
 import SpendList from "../components/spend";
 import Settings from "../components/settings";
+import Funds from "../components/funds";
 import Image from "next/image";
 
 export default function Home() {
@@ -12,11 +13,6 @@ export default function Home() {
   const [checkingBalance, setCheckingBalance] = useState(0);
   const [savingBalance, setSavingBalance] = useState(0);
   const [donationBalance, setDonationBalance] = useState(0);
-  const [financialBreakdown, setfinancialBreakdown] = useState({
-    totalChecking: 0,
-    totalSaving: 0,
-    totalDonation: 0,
-  });
 
   useEffect(() => {
     updateAmount();
@@ -24,20 +20,15 @@ export default function Home() {
 
   const updateAmount = () => {
     const financeData = getFinancialData();
-    const spend = getSpend();
-    const totalBalance = financeData.totalAmount - spend.totalSum;
-    const checkingBalance = financeData.totalChecking - spend.totalChecking;
-    const savingBalance = financeData.totalSaving - spend.totalSaving;
-    const donationBalance = financeData.totalDonation - spend.totalDonation;
+    const totals = getSpend().totalObject;
+    const totalBalance = financeData.totalAmount - totals.totalSum;
+    const checkingBalance = financeData.totalChecking - totals.totalChecking;
+    const savingBalance = financeData.totalSaving - totals.totalSaving;
+    const donationBalance = financeData.totalDonation - totals.totalDonation;
     setTotalAmount(totalBalance);
     setCheckingBalance(checkingBalance);
     setSavingBalance(savingBalance);
     setDonationBalance(donationBalance);
-    setfinancialBreakdown({
-      totalChecking: financeData.totalChecking,
-      totalSaving: financeData.totalSaving,
-      totalDonation: financeData.totalDonation,
-    });
   };
 
   return (
@@ -70,19 +61,28 @@ export default function Home() {
               <h2 className="mb-3 text-3xl font-semibold text-center">
                 ${checkingBalance}
               </h2>
-              <p className="mt-2 text-xs">Checking</p>
+              <div className="flex">
+                <p className="mr-2 text-xs">Checking</p>
+                <Funds updateAmount={updateAmount} account="Checking" />
+              </div>
             </div>
             <div className="p-4 flex flex-col items-center">
               <h2 className="mb-3 text-3xl font-semibold text-center">
                 ${savingBalance}
               </h2>
-              <p className="mt-2 text-xs">Saving</p>
+              <div className="flex">
+                <p className="mr-2 text-xs">Saving</p>
+                <Funds updateAmount={updateAmount} account="Saving" />
+              </div>
             </div>
             <div className="p-4 flex flex-col items-center">
               <h2 className="mb-3 text-3xl font-semibold text-center">
                 ${donationBalance}
               </h2>
-              <p className="mt-2 text-xs">Donation</p>
+              <div className="flex">
+                <p className="mr-2 text-xs">Donation</p>
+                <Funds updateAmount={updateAmount} account="Donation" />
+              </div>
             </div>
           </div>
         </div>

@@ -1,4 +1,4 @@
-import { getAccountSetting } from "./spend";
+import { getAccountSettings, getFunds } from "./spend";
 
 interface FinancialData {
   totalAmount: number;
@@ -8,9 +8,29 @@ interface FinancialData {
 }
 
 export const getFinancialData = (): FinancialData => {
-  const checking = parseInt(getAccountSetting("Checking") || "3");
-  const saving = parseInt(getAccountSetting("Saving") || "1");
-  const donation = parseInt(getAccountSetting("Donation") || "1");
+  const accountSettings = getAccountSettings();
+  const checkingContribution = parseInt(accountSettings.checking);
+  const savingContribution = parseInt(accountSettings.saving);
+  const donationContribution = parseInt(accountSettings.donation);
+
+  const checkingFundsObj = getFunds("Checking");
+  const savingFundsObj = getFunds("Saving");
+  const donationFundsObj = getFunds("Donation");
+  let checkingFunds = 0;
+  let savingFunds = 0;
+  let donationFunds = 0;
+
+  Object.entries(checkingFundsObj).map(
+    (item) => (checkingFunds += parseInt(item[1]))
+  );
+
+  Object.entries(savingFundsObj).map(
+    (item) => (savingFunds += parseInt(item[1]))
+  );
+
+  Object.entries(donationFundsObj).map(
+    (item) => (donationFunds += parseInt(item[1]))
+  );
 
   const startDate: Date = new Date("2024-01-01");
   const today: Date = new Date();
@@ -43,10 +63,15 @@ export const getFinancialData = (): FinancialData => {
   const totalFridays: number = Math.floor(differenceInDays / 7) + 1; // +1 to include the first Friday
 
   // Each Friday contributes Saving + Checking + Donations to the total amount
-  const totalAmount: number = totalFridays * (checking + saving + donation);
-  const totalChecking: number = totalFridays * checking;
-  const totalSaving: number = totalFridays * saving;
-  const totalDonation: number = totalFridays * donation;
+  const totalAmount: number =
+    totalFridays *
+      (checkingContribution + savingContribution + donationContribution) +
+    (checkingFunds + savingFunds + donationFunds);
+  const totalChecking: number =
+    totalFridays * checkingContribution + checkingFunds;
+  const totalSaving: number = totalFridays * savingContribution + savingFunds;
+  const totalDonation: number =
+    totalFridays * donationContribution + donationFunds;
 
   return { totalAmount, totalChecking, totalSaving, totalDonation };
 };

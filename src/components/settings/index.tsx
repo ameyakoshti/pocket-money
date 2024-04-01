@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { addAccountSetting, getAccountSetting } from "../../utils/spend";
+import { addAccountSettings, getAccountSettings } from "../../utils/spend";
 
 interface ChildComponentProps {
   updateAmount: () => void;
@@ -13,10 +13,11 @@ interface InputValues {
 
 const Settings: React.FC<ChildComponentProps> = ({ updateAmount }) => {
   const [showModal, setShowModal] = useState(false);
+  const accountSettings = getAccountSettings();
   const [inputValues, setInputValues] = useState<InputValues>({
-    checking: getAccountSetting("Checking") || "3",
-    saving: getAccountSetting("Saving") || "1",
-    donation: getAccountSetting("Donation") || "1",
+    checking: accountSettings.checking,
+    saving: accountSettings.saving,
+    donation: accountSettings.donation,
   });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -25,9 +26,7 @@ const Settings: React.FC<ChildComponentProps> = ({ updateAmount }) => {
   };
 
   const handleSave = (): void => {
-    addAccountSetting("Checking", inputValues.checking);
-    addAccountSetting("Saving", inputValues.saving);
-    addAccountSetting("Donation", inputValues.donation);
+    addAccountSettings(inputValues);
     updateAmount();
     setShowModal(false);
   };
@@ -59,7 +58,7 @@ const Settings: React.FC<ChildComponentProps> = ({ updateAmount }) => {
             <div className="space-y-4">
               <div>
                 <label className="block mb-1 text-black">
-                  Spending account
+                  Checking account
                 </label>
                 <input
                   type="number"
@@ -80,7 +79,9 @@ const Settings: React.FC<ChildComponentProps> = ({ updateAmount }) => {
                 />
               </div>
               <div>
-                <label className="block mb-1 text-black">Donations</label>
+                <label className="block mb-1 text-black">
+                  Donation account
+                </label>
                 <input
                   type="number"
                   name="donation"
