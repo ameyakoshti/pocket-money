@@ -63,7 +63,7 @@ const Settings: React.FC<ChildComponentProps> = ({ updateAmount }) => {
                 </label>
                 <input
                   type="number"
-                  name="spending"
+                  name="checking"
                   value={inputValues.checking}
                   onChange={handleInputChange}
                   className="w-full border rounded px-3 py-2 text-black"
