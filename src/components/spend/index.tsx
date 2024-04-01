@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useEffect, useState, ChangeEvent, FormEvent } from "react";
 import { addSpend, getSpend, removeSpend, Spend } from "../../utils/spend";
 
