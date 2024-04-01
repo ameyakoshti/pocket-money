@@ -66,7 +66,7 @@ const SpendList: React.FC<ChildComponentProps> = ({ updateAmount }) => {
         <select
           value={account}
           onChange={handleAccountChange}
-          className="w-full p-2 border border-gray-400 rounded bg-gray-900 text-xs"
+          className="appearance-none w-full p-2 border border-gray-400 rounded bg-gray-900 text-xs"
         >
           <option value="Checking">Checking</option>
           <option value="Saving">Saving</option>
